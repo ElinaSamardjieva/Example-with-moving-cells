@@ -19,30 +19,24 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
         tableView.registerNib(UINib(nibName: "CustomTableViewCell", bundle: nil), forCellReuseIdentifier: "Cell")
         
-        //let mySelector: Selector = "testPrint"
-        let mySelector: Selector = "startEditing"
+        //let mySelector: Selector = "startEditing"
         
-                var barButtonItem = UIBarButtonItem(
-                    title: "Edit",
-                    style: .Plain,
-                    target: self,
-                    action: mySelector)
+        var barButtonItem = UIBarButtonItem(
+            title: "Edit",
+            style: .Plain,
+            target: self,
+            action: "startEditing")
+            //action: mySelector)
 
         self.navigationItem.rightBarButtonItem = barButtonItem
         
-        
         // MARK: - BarButtonItem (Edit -> Done)
         //self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        
-    }
     
-    func testPrint() {
-        print("Test")
     }
   
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-
     }
     
     // MARK: - UITableViewDataSource
@@ -72,7 +66,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         return 100.0
     }
     
-    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if indexPath.row < dataArray.count {
@@ -86,33 +79,24 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // MARK: - Delete cell
     
-    func tableView(tableView: UITableView,
-        commitEditingStyle editingStyle: UITableViewCellEditingStyle,
-        forRowAtIndexPath indexPath: NSIndexPath) {
-            switch editingStyle {
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        
+        switch editingStyle {
             case .Delete:
                 
                 dataArray.removeAtIndex(indexPath.row)
-                
                 tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
-                
+            
             default:
                 return
             }
     }
     
     // MARK: - Move cell
-    
-    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return true
-    }
-    
+
     func startEditing() {
         self.tableView.editing = true
     }
-    
-    func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return true}
     
     func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
         var itemToMove = dataArray[fromIndexPath.row]
