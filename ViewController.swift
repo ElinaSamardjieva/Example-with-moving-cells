@@ -14,25 +14,28 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     var dataArray = [Color(name: "green", color: UIColor.greenColor()), Color(name: "red", color: UIColor.redColor()), Color(name: "blue", color: UIColor.blueColor())]
     
+    let footerView = UIView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.registerNib(UINib(nibName: "CustomTableViewCell", bundle: nil), forCellReuseIdentifier: "Cell")
         
-        //let mySelector: Selector = "startEditing"
         
-        var barButtonItem = UIBarButtonItem(
-            title: "Edit",
-            style: .Plain,
-            target: self,
-            action: "startEditing")
-            //action: mySelector)
-
-        self.navigationItem.rightBarButtonItem = barButtonItem
+        // Navigation bar button
         
-        // MARK: - BarButtonItem (Edit -> Done)
-        //self.navigationItem.rightBarButtonItem = self.editButtonItem()
-    
+        let negativeSpace = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+        negativeSpace.width = -12
+        
+        let editButton = UIButton(type: .Custom)
+        editButton.frame = CGRectMake(0, 0, 60, 30)
+        editButton.setTitle("Edit", forState: .Normal)
+        editButton.addTarget(self, action: "startEditing", forControlEvents: .TouchUpInside)
+        editButton.setTitleColor(UIColor.blueColor(), forState: .Normal)
+        let editItem = UIBarButtonItem(customView: editButton)
+        
+        navigationItem.rightBarButtonItems = [negativeSpace, editItem]
+        
     }
   
     override func viewWillLayoutSubviews() {
@@ -104,5 +107,57 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         dataArray.insert(itemToMove, atIndex: toIndexPath.row)
     }
     
-}
+    // MARK: - Add footer
+    
+    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        
+        let footerView = UIView(frame: CGRectMake(0, 0, tableView.frame.size.width, 40))
+        footerView.backgroundColor = UIColor.grayColor()
+        
+        let dunamicButton = UIButton(type: .Custom)
+        dunamicButton.backgroundColor = UIColor.blackColor()
+        dunamicButton.setTitle("Button", forState: UIControlState.Normal)
+        dunamicButton.frame = CGRectMake(0, 0, 100, 40)
+        dunamicButton.addTarget(self, action: "buttonTouched", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        
+        // Add refresh button
+//        
+//        let refreshButton = UIButton(type: .Custom)
+//        refreshButton.backgroundColor = UIColor.blackColor()
+//        refreshButton.setTitle("Refresh", forState: UIControlState.Normal)
+//        refreshButton.frame = CGRectMake(150, 0, 100, 40)
+//        refreshButton.addTarget(self, action: "refreshButtonTouched", forControlEvents: UIControlEvents.TouchUpInside)
+//        
+        
+        
+        footerView.addSubview(dunamicButton)
+ //       footerView.addSubview(refreshButton)
+        
+        return footerView
+    }
+    
+    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 40.0
+    }
+    
+//    func buttonTouched() {
+//        let vcColor = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ChangeColorViewController") as! ChangeColorViewController
+//        navigationController?.pushViewController(vcColor, animated: true)
+//    }
+    
+    func buttonTouched() {
+        dataArray.append(Color(name: "yellow", color: UIColor.yellowColor()))
+        print("Color added")
 
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            //reload your tableView
+            self.tableView.reloadData()
+        })
+    }
+    
+        func refreshButtonTouched() {
+    
+                self.tableView.reloadData()
+        }
+}
