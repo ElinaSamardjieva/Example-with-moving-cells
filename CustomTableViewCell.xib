@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="53" id="KGk-i7-Jjw" customClass="CustomTableViewCell" customModule="Example" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="319" height="53"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="319" height="52"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="62P-wR-Q68">
+                        <rect key="frame" x="15" y="17" width="42" height="20"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1SN-VQ-WQY">
+                        <rect key="frame" x="265" y="6" width="40" height="40"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="40" id="mFR-xK-NWq"/>
+                            <constraint firstAttribute="width" constant="40" id="pyZ-kG-G9B"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="1SN-VQ-WQY" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="5sg-Y4-VAS"/>
+                    <constraint firstItem="62P-wR-Q68" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="C3E-fj-lAa"/>
+                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="62P-wR-Q68" secondAttribute="trailing" constant="8" id="OYI-Ml-IaI"/>
+                    <constraint firstItem="62P-wR-Q68" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="Qos-qf-ohI"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="1SN-VQ-WQY" secondAttribute="trailing" constant="6" id="dbt-DG-T9M"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="colorView" destination="1SN-VQ-WQY" id="0pN-hh-ZEM"/>
+                <outlet property="titleLabel" destination="62P-wR-Q68" id="hbz-1Y-gZd"/>
+            </connections>
+            <point key="canvasLocation" x="144.5" y="279.5"/>
+        </tableViewCell>
+    </objects>
+</document>
