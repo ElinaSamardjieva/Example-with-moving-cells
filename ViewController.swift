@@ -12,15 +12,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     @IBOutlet var tableView: UITableView!
     
-    var dataArray = [Color(name: "green", color: UIColor.greenColor()), Color(name: "red", color: UIColor.redColor()), Color(name: "blue", color: UIColor.blueColor())]
-    
     let footerView = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.registerNib(UINib(nibName: "CustomTableViewCell", bundle: nil), forCellReuseIdentifier: "Cell")
-        
         
         // Navigation bar button
         
@@ -35,7 +32,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let editItem = UIBarButtonItem(customView: editButton)
         
         navigationItem.rightBarButtonItems = [negativeSpace, editItem]
-        
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        tableView.reloadData()
     }
   
     override func viewWillLayoutSubviews() {
@@ -45,15 +45,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // MARK: - UITableViewDataSource
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataArray.count
+        return DataManager.sharedManager.dataArray.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as! CustomTableViewCell
         
-        if indexPath.row < dataArray.count {
-            let color = dataArray[indexPath.row]
+        if indexPath.row < DataManager.sharedManager.dataArray.count {
+            let color = DataManager.sharedManager.dataArray[indexPath.row]
             
             cell.titleLabel.text = color.name
             cell.colorView.backgroundColor = color.color
@@ -71,8 +71,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        if indexPath.row < dataArray.count {
-            let color = dataArray[indexPath.row]
+        if indexPath.row < DataManager.sharedManager.dataArray.count {
+            let color = DataManager.sharedManager.dataArray[indexPath.row]
             let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ColorViewController") as! ColorViewController
             
             vc.color = color
@@ -87,8 +87,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         switch editingStyle {
             case .Delete:
                 
-                dataArray.removeAtIndex(indexPath.row)
+                var remove = indexPath.row
+                DataManager.sharedManager.removeColor(remove)
                 tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+                
+//                DataManager.sharedManager.dataArray.removeAtIndex(indexPath.row)
+//                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
             
             default:
                 return
@@ -102,9 +106,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-        var itemToMove = dataArray[fromIndexPath.row]
-        dataArray.removeAtIndex(fromIndexPath.row)
-        dataArray.insert(itemToMove, atIndex: toIndexPath.row)
+        var itemToMove = DataManager.sharedManager.dataArray[fromIndexPath.row]
+        DataManager.sharedManager.dataArray.removeAtIndex(fromIndexPath.row)
+        DataManager.sharedManager.dataArray.insert(itemToMove, atIndex: toIndexPath.row)
     }
     
     // MARK: - Add footer
@@ -116,23 +120,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         let dunamicButton = UIButton(type: .Custom)
         dunamicButton.backgroundColor = UIColor.blackColor()
-        dunamicButton.setTitle("Button", forState: UIControlState.Normal)
+        dunamicButton.setTitle("Add color", forState: UIControlState.Normal)
         dunamicButton.frame = CGRectMake(0, 0, 100, 40)
-        dunamicButton.addTarget(self, action: "buttonTouched", forControlEvents: UIControlEvents.TouchUpInside)
-        
-        
-        // Add refresh button
-//        
-//        let refreshButton = UIButton(type: .Custom)
-//        refreshButton.backgroundColor = UIColor.blackColor()
-//        refreshButton.setTitle("Refresh", forState: UIControlState.Normal)
-//        refreshButton.frame = CGRectMake(150, 0, 100, 40)
-//        refreshButton.addTarget(self, action: "refreshButtonTouched", forControlEvents: UIControlEvents.TouchUpInside)
-//        
-        
+        dunamicButton.addTarget(self, action: "seePossibleColors", forControlEvents: UIControlEvents.TouchUpInside)
+
         
         footerView.addSubview(dunamicButton)
- //       footerView.addSubview(refreshButton)
         
         return footerView
     }
@@ -141,23 +134,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         return 40.0
     }
     
-//    func buttonTouched() {
-//        let vcColor = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ChangeColorViewController") as! ChangeColorViewController
-//        navigationController?.pushViewController(vcColor, animated: true)
-//    }
-    
-    func buttonTouched() {
-        dataArray.append(Color(name: "yellow", color: UIColor.yellowColor()))
-        print("Color added")
-
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            //reload your tableView
-            self.tableView.reloadData()
-        })
+    func seePossibleColors() {
+        print(DataManager.sharedManager.dataArray.count)
+        let vcColor = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ChangeColorViewController") as! ChangeColorViewController
+        navigationController?.pushViewController(vcColor, animated: true)
     }
-    
-        func refreshButtonTouched() {
-    
-                self.tableView.reloadData()
-        }
 }

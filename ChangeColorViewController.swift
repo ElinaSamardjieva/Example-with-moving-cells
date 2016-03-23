@@ -8,10 +8,14 @@
 
 import UIKit
 
-class ChangeColorViewController: UIViewController {
+class ChangeColorViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    
+    @IBOutlet var addColorTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        addColorTableView.registerNib(UINib(nibName: "CustomTableViewCell", bundle: nil), forCellReuseIdentifier: "Cell")
         
         let negativeSpace = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
         negativeSpace.width = -12
@@ -19,25 +23,47 @@ class ChangeColorViewController: UIViewController {
         let editButton = UIButton(type: .Custom)
         editButton.frame = CGRectMake(0, 0, 60, 30)
         editButton.setTitle("Add", forState: .Normal)
-        editButton.addTarget(self, action: "addColor", forControlEvents: .TouchUpInside)
+        editButton.addTarget(self, action: "addNewColor", forControlEvents: .TouchUpInside)
         editButton.setTitleColor(UIColor.blueColor(), forState: .Normal)
         let editItem = UIBarButtonItem(customView: editButton)
         
         navigationItem.rightBarButtonItems = [negativeSpace, editItem]
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+        // MARK: - UITableViewDataSource
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return DataManager.sharedManager.possibleColor.count
     }
     
-//    func addColor() {
-//                ViewController().dataArray.append(Color(name: "yellow", color: UIColor.yellowColor()))
-//                print("Color added")
-//        
-//                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-//                    //reload your tableView
-//                    ViewController().self.tableView.reloadData()
-//                })
-//    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as! CustomTableViewCell
+        
+        if indexPath.row < DataManager.sharedManager.possibleColor.count {
+            let color = DataManager.sharedManager.possibleColor[indexPath.row]
+            
+            cell.titleLabel.text = color.name
+            cell.colorView.backgroundColor = color.color
+        }
+        
+        cell.selectionStyle = .None
+        return cell
+    }
+    
+    // MARK: - Add new color
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        if indexPath.row < DataManager.sharedManager.possibleColor.count {
+            let color = DataManager.sharedManager.possibleColor[indexPath.row]
+            DataManager.sharedManager.addColor(color)
+
+        }
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 100.0
+    }
 }

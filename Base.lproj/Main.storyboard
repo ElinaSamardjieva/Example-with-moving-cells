@@ -25,7 +25,7 @@
             </objects>
             <point key="canvasLocation" x="1899" y="306"/>
         </scene>
-        <!--Change Color View Controller-->
+        <!--Title-->
         <scene sceneID="20z-Un-2fY">
             <objects>
                 <viewController storyboardIdentifier="ChangeColorViewController" id="RE8-TJ-wXf" customClass="ChangeColorViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
@@ -34,9 +34,38 @@
                         <viewControllerLayoutGuide type="bottom" id="U1Y-Jy-NFu"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="X7E-BM-Dc2">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="0su-ea-Nc0">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="0.0" y="0.0" width="400" height="683"/>
+                                </variation>
+                                <connections>
+                                    <outlet property="dataSource" destination="RE8-TJ-wXf" id="lir-6Z-tJb"/>
+                                    <outlet property="delegate" destination="RE8-TJ-wXf" id="Wgq-g5-Uw1"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="0su-ea-Nc0"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="0su-ea-Nc0"/>
+                            </mask>
+                        </variation>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+                    <navigationItem key="navigationItem" title="Title" id="zFK-bZ-9T9"/>
+                    <connections>
+                        <outlet property="addColorTableView" destination="0su-ea-Nc0" id="TFT-r3-TpM"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yib-K4-859" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -118,13 +147,7 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" id="cUY-zr-Iw3">
-                        <barButtonItem key="rightBarButtonItem" title="Edit" id="Zsl-Qc-0Z1">
-                            <connections>
-                                <action selector="print:" destination="BYZ-38-t0r" id="u9p-hQ-aSl"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="cUY-zr-Iw3"/>
                     <connections>
                         <outlet property="tableView" destination="ohG-a2-pbh" id="OoF-aZ-q8N"/>
                     </connections>
